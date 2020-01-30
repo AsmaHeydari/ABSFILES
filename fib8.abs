@@ -275,7 +275,7 @@ class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_
                 Bool returnFlag = False;
                 Val result = IntVal( 0 );
                 {
-                        Fut<Val> tmp_46 = this!call_fib_val_0(5);
+                        Fut<Val> tmp_46 = this!call_fib_val_0(8);
                         await tmp_46?;
                         result = tmp_46.get;
                         returnFlag = True;

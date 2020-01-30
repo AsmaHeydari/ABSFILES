@@ -33,103 +33,63 @@ interface Function_init_a {
 
 class Function_init_a(List<Loc> globalVars, List<Loc> params) implements Function_init_a {
         List<Loc> localVars = Nil;
-        Bool ready = False;
-        Bool go = False;
         
         Unit call(){
                 Mem mem_0 = new Mem(copy(IntVal( 0 ), 1));
                 this.localVars = appendright(this.localVars, Loc( mem_0, 0 ));
                 {
-                        this.go = False;
                         Fut<Val> tmp_1 = this!getVal_val(nth(this.localVars, 0));
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_2 = this!cmp_lt_int_fut_val(tmp_1, 100);
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_2?;
                         Val tmp_12 = tmp_2.get;
                         while (( intVal(tmp_12) != 0 )) {
-                                this.go = False;
                                 Fut<Val> tmp_6 = this!getVal_val(nth(this.localVars, 0));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Loc> tmp_7 = this!subscript_val_fut(nth(this.globalVars, 0), 1, tmp_6);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_9 = this!getVal_val(nth(this.localVars, 0));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_10 = this!op_plus_fut_val(tmp_9, 1);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Unit> tmp_11 = this!setVal_fut_fut(tmp_7, tmp_10);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_10? & tmp_11?;
-                                this.go = False;
                                 Fut<Val> tmp_3 = this!getVal_val(nth(this.localVars, 0));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_4 = this!op_plus_fut_val(tmp_3, 1);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Unit> tmp_5 = this!setVal_val_fut(nth(this.localVars, 0), tmp_4);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_4? & tmp_5?;
-                                this.go = False;
                                 tmp_1 = this!getVal_val(nth(this.localVars, 0));
-                                this.ready = False;
-                                await this.ready;
                                 tmp_2 = this!cmp_lt_int_fut_val(tmp_1, 100);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_2?;
                                 tmp_12 = tmp_2.get;
                         }
                 }
         }
         Unit setVal_fut_fut(Fut<Loc> fut_loc, Fut<Val> fut_value){
-                this.ready = True;
-                await this.go & fut_loc? & fut_value?;
+                await fut_loc? & fut_value?;
                 Loc loc = fut_loc.get;
                 Val value = fut_value.get;
                 Fut<Unit> se = mem(loc)!setVal(offset(loc), value);
                 se.get;
         }
         Loc subscript_val_fut(Loc loc, Int size, Fut<Val> fut_index){
-                this.ready = True;
-                await this.go & fut_index?;
+                await fut_index?;
                 Val index = fut_index.get;
                 return Loc( mem(loc), ( offset(loc) + ( size * intVal(index) ) ) );
         }
         Unit setVal_val_fut(Loc loc, Fut<Val> fut_value){
-                this.ready = True;
-                await this.go & fut_value?;
+                await fut_value?;
                 Val value = fut_value.get;
                 Fut<Unit> se = mem(loc)!setVal(offset(loc), value);
                 se.get;
         }
         Val getVal_val(Loc loc){
-                this.ready = True;
-                await this.go;
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
-                return futureResult.get;
+                Val result = futureResult.get;
+                return result;
         }
         Val op_plus_fut_val(Fut<Val> fut_arg1, Int arg2){
-                this.ready = True;
-                await this.go & fut_arg1?;
+                await fut_arg1?;
                 Val arg1 = fut_arg1.get;
                 return IntVal( ( intVal(arg1) + arg2 ) );
         }
         Val cmp_lt_int_fut_val(Fut<Val> fut_arg1, Int arg2){
-                this.ready = True;
-                await this.go & fut_arg1?;
+                await fut_arg1?;
                 Val arg1 = fut_arg1.get;
                 return IntVal( if ( arg1 < IntVal( arg2 ) ) then 1 else 0 );
         }
@@ -141,8 +101,6 @@ interface Function_init_p {
 
 class Function_init_p(List<Loc> globalVars, List<Loc> params) implements Function_init_p {
         List<Loc> localVars = Nil;
-        Bool ready = False;
-        Bool go = False;
         
         Unit call(){
                 Mem mem_0 = new Mem(copy(IntVal( 0 ), 1));
@@ -150,100 +108,60 @@ class Function_init_p(List<Loc> globalVars, List<Loc> params) implements Functio
                 Mem mem_1 = new Mem(copy(IntVal( 0 ), 1));
                 this.localVars = appendright(this.localVars, Loc( mem_1, 0 ));
                 {
-                        this.go = False;
                         Fut<Val> tmp_13 = this!getVal_val(nth(this.localVars, 1));
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_14 = this!cmp_lt_int_fut_val(tmp_13, 100);
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_14?;
                         Val tmp_25 = tmp_14.get;
                         while (( intVal(tmp_25) != 0 )) {
-                                this.go = False;
                                 Fut<Val> tmp_18 = this!getVal_val(nth(this.params, 0));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_19 = this!getVal_val(nth(this.localVars, 1));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Loc> tmp_20 = this!pointerSubscript_fut_fut(tmp_18, 1, tmp_19);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_22 = this!getVal_val(nth(this.localVars, 1));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_23 = this!op_plus_fut_val(tmp_22, 1);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Unit> tmp_24 = this!setVal_fut_fut(tmp_20, tmp_23);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_23? & tmp_24?;
-                                this.go = False;
                                 Fut<Val> tmp_15 = this!getVal_val(nth(this.localVars, 1));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_16 = this!op_plus_fut_val(tmp_15, 1);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Unit> tmp_17 = this!setVal_val_fut(nth(this.localVars, 1), tmp_16);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_16? & tmp_17?;
-                                this.go = False;
                                 tmp_13 = this!getVal_val(nth(this.localVars, 1));
-                                this.ready = False;
-                                await this.ready;
                                 tmp_14 = this!cmp_lt_int_fut_val(tmp_13, 100);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_14?;
                                 tmp_25 = tmp_14.get;
                         }
                 }
         }
         Unit setVal_fut_fut(Fut<Loc> fut_loc, Fut<Val> fut_value){
-                this.ready = True;
-                await this.go & fut_loc? & fut_value?;
+                await fut_loc? & fut_value?;
                 Loc loc = fut_loc.get;
                 Val value = fut_value.get;
                 Fut<Unit> se = mem(loc)!setVal(offset(loc), value);
                 se.get;
         }
         Loc pointerSubscript_fut_fut(Fut<Val> fut_ptr, Int size, Fut<Val> fut_index){
-                this.ready = True;
-                await this.go & fut_ptr? & fut_index?;
+                await fut_ptr? & fut_index?;
                 Val ptr = fut_ptr.get;
                 Val index = fut_index.get;
                 return Loc( mem(loc(ptrVal(ptr))), ( offset(loc(ptrVal(ptr))) + ( size * intVal(index) ) ) );
         }
         Unit setVal_val_fut(Loc loc, Fut<Val> fut_value){
-                this.ready = True;
-                await this.go & fut_value?;
+                await fut_value?;
                 Val value = fut_value.get;
                 Fut<Unit> se = mem(loc)!setVal(offset(loc), value);
                 se.get;
         }
         Val getVal_val(Loc loc){
-                this.ready = True;
-                await this.go;
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
-                return futureResult.get;
+                Val result = futureResult.get;
+                return result;
         }
         Val op_plus_fut_val(Fut<Val> fut_arg1, Int arg2){
-                this.ready = True;
-                await this.go & fut_arg1?;
+                await fut_arg1?;
                 Val arg1 = fut_arg1.get;
                 return IntVal( ( intVal(arg1) + arg2 ) );
         }
         Val cmp_lt_int_fut_val(Fut<Val> fut_arg1, Int arg2){
-                this.ready = True;
-                await this.go & fut_arg1?;
+                await fut_arg1?;
                 Val arg1 = fut_arg1.get;
                 return IntVal( if ( arg1 < IntVal( arg2 ) ) then 1 else 0 );
         }
@@ -255,8 +173,6 @@ interface Function_sum_a {
 
 class Function_sum_a(List<Loc> globalVars, List<Loc> params) implements Function_sum_a {
         List<Loc> localVars = Nil;
-        Bool ready = False;
-        Bool go = False;
         
         Val call(){
                 Mem mem_0 = new Mem(copy(IntVal( 0 ), 1));
@@ -270,66 +186,28 @@ class Function_sum_a(List<Loc> globalVars, List<Loc> params) implements Function
                 Bool returnFlag = False;
                 Val result = IntVal( 0 );
                 {
-                        this.go = False;
                         Fut<Val> tmp_26 = this!getVal_val(nth(this.localVars, 3));
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_27 = this!cmp_lt_int_fut_val(tmp_26, 100);
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_27?;
                         Val tmp_37 = tmp_27.get;
                         while (( intVal(tmp_37) != 0 )) {
-                                this.go = False;
                                 Fut<Val> tmp_31 = this!getVal_val(nth(this.localVars, 2));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_32 = this!getVal_val(nth(this.localVars, 3));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Loc> tmp_33 = this!subscript_val_fut(nth(this.globalVars, 0), 1, tmp_32);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_34 = this!getVal_fut(tmp_33);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_35 = this!op_plus_fut_fut(tmp_31, tmp_34);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Unit> tmp_36 = this!setVal_val_fut(nth(this.localVars, 2), tmp_35);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_35? & tmp_36?;
-                                this.go = False;
                                 Fut<Val> tmp_28 = this!getVal_val(nth(this.localVars, 3));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_29 = this!op_plus_fut_val(tmp_28, 1);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Unit> tmp_30 = this!setVal_val_fut(nth(this.localVars, 3), tmp_29);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_29? & tmp_30?;
-                                this.go = False;
                                 tmp_26 = this!getVal_val(nth(this.localVars, 3));
-                                this.ready = False;
-                                await this.ready;
                                 tmp_27 = this!cmp_lt_int_fut_val(tmp_26, 100);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_27?;
                                 tmp_37 = tmp_27.get;
                         }
-                        this.go = False;
                         Fut<Val> tmp_38 = this!getVal_val(nth(this.localVars, 2));
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_38?;
                         result = tmp_38.get;
                         returnFlag = True;
@@ -337,47 +215,41 @@ class Function_sum_a(List<Loc> globalVars, List<Loc> params) implements Function
                 return result;
         }
         Val getVal_fut(Fut<Loc> fut_loc){
-                this.ready = True;
-                await this.go & fut_loc?;
+                await fut_loc?;
                 Loc loc = fut_loc.get;
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
-                return futureResult.get;
+                Val result = futureResult.get;
+                return result;
         }
         Loc subscript_val_fut(Loc loc, Int size, Fut<Val> fut_index){
-                this.ready = True;
-                await this.go & fut_index?;
+                await fut_index?;
                 Val index = fut_index.get;
                 return Loc( mem(loc), ( offset(loc) + ( size * intVal(index) ) ) );
         }
         Val op_plus_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
-                this.ready = True;
-                await this.go & fut_arg1? & fut_arg2?;
+                await fut_arg1? & fut_arg2?;
                 Val arg1 = fut_arg1.get;
                 Val arg2 = fut_arg2.get;
                 return IntVal( ( intVal(arg1) + intVal(arg2) ) );
         }
         Unit setVal_val_fut(Loc loc, Fut<Val> fut_value){
-                this.ready = True;
-                await this.go & fut_value?;
+                await fut_value?;
                 Val value = fut_value.get;
                 Fut<Unit> se = mem(loc)!setVal(offset(loc), value);
                 se.get;
         }
         Val getVal_val(Loc loc){
-                this.ready = True;
-                await this.go;
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
-                return futureResult.get;
+                Val result = futureResult.get;
+                return result;
         }
         Val op_plus_fut_val(Fut<Val> fut_arg1, Int arg2){
-                this.ready = True;
-                await this.go & fut_arg1?;
+                await fut_arg1?;
                 Val arg1 = fut_arg1.get;
                 return IntVal( ( intVal(arg1) + arg2 ) );
         }
         Val cmp_lt_int_fut_val(Fut<Val> fut_arg1, Int arg2){
-                this.ready = True;
-                await this.go & fut_arg1?;
+                await fut_arg1?;
                 Val arg1 = fut_arg1.get;
                 return IntVal( if ( arg1 < IntVal( arg2 ) ) then 1 else 0 );
         }
@@ -389,8 +261,6 @@ interface Function_sum_p {
 
 class Function_sum_p(List<Loc> globalVars, List<Loc> params) implements Function_sum_p {
         List<Loc> localVars = Nil;
-        Bool ready = False;
-        Bool go = False;
         
         Val call(){
                 Mem mem_0 = new Mem(copy(IntVal( 0 ), 1));
@@ -408,87 +278,37 @@ class Function_sum_p(List<Loc> globalVars, List<Loc> params) implements Function
                 Bool returnFlag = False;
                 Val result = IntVal( 0 );
                 {
-                        this.go = False;
                         Fut<Val> tmp_39 = this!getVal_val(nth(this.params, 0));
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_39?;
                         Val tmp_40 = tmp_39.get;
                         Fut<Unit> tmp_41 = mem(nth(this.localVars, 5))!setVal(0, tmp_40);
                         tmp_41.get;
-                        this.go = False;
                         Fut<Val> tmp_42 = this!getVal_val(nth(this.localVars, 5));
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_43 = this!getVal_val(nth(this.params, 0));
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_44 = this!pointerPlus_fut_val(tmp_43, 1, 100);
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_45 = this!cmp_lt_ptr_fut_fut(tmp_42, tmp_44);
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_45?;
                         Val tmp_55 = tmp_45.get;
                         while (( intVal(tmp_55) != 0 )) {
-                                this.go = False;
                                 Fut<Val> tmp_49 = this!getVal_val(nth(this.localVars, 4));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_50 = this!getVal_val(nth(this.localVars, 5));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Loc> tmp_51 = this!deref_fut(tmp_50);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_52 = this!getVal_fut(tmp_51);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_53 = this!op_plus_fut_fut(tmp_49, tmp_52);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Unit> tmp_54 = this!setVal_val_fut(nth(this.localVars, 4), tmp_53);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_53? & tmp_54?;
-                                this.go = False;
                                 Fut<Val> tmp_46 = this!getVal_val(nth(this.localVars, 5));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_47 = this!pointerPlus_fut_val(tmp_46, 1, 1);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Unit> tmp_48 = this!setVal_val_fut(nth(this.localVars, 5), tmp_47);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_47? & tmp_48?;
-                                this.go = False;
                                 tmp_42 = this!getVal_val(nth(this.localVars, 5));
-                                this.ready = False;
-                                await this.ready;
                                 tmp_43 = this!getVal_val(nth(this.params, 0));
-                                this.ready = False;
-                                await this.ready;
                                 tmp_44 = this!pointerPlus_fut_val(tmp_43, 1, 100);
-                                this.ready = False;
-                                await this.ready;
                                 tmp_45 = this!cmp_lt_ptr_fut_fut(tmp_42, tmp_44);
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_45?;
                                 tmp_55 = tmp_45.get;
                         }
-                        this.go = False;
                         Fut<Val> tmp_56 = this!getVal_val(nth(this.localVars, 4));
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_56?;
                         result = tmp_56.get;
                         returnFlag = True;
@@ -496,50 +316,44 @@ class Function_sum_p(List<Loc> globalVars, List<Loc> params) implements Function
                 return result;
         }
         Val getVal_fut(Fut<Loc> fut_loc){
-                this.ready = True;
-                await this.go & fut_loc?;
+                await fut_loc?;
                 Loc loc = fut_loc.get;
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
-                return futureResult.get;
+                Val result = futureResult.get;
+                return result;
         }
         Loc deref_fut(Fut<Val> fut_ptr){
-                this.ready = True;
-                await this.go & fut_ptr?;
+                await fut_ptr?;
                 Val ptr = fut_ptr.get;
                 return loc(ptrVal(ptr));
         }
         Val cmp_lt_ptr_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
-                this.ready = True;
-                await this.go & fut_arg1? & fut_arg2?;
+                await fut_arg1? & fut_arg2?;
                 Val arg1 = fut_arg1.get;
                 Val arg2 = fut_arg2.get;
                 return IntVal( if ( arg1 < arg2 ) then 1 else 0 );
         }
         Val pointerPlus_fut_val(Fut<Val> fut_ptr, Int size, Int offset){
-                this.ready = True;
-                await this.go & fut_ptr?;
+                await fut_ptr?;
                 Val ptr = fut_ptr.get;
                 return PtrVal( let ( Loc loc ) = loc(ptrVal(ptr)) in Ptr( Loc( mem(loc), ( offset(loc) + ( size * offset ) ) ) ) );
         }
         Val op_plus_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
-                this.ready = True;
-                await this.go & fut_arg1? & fut_arg2?;
+                await fut_arg1? & fut_arg2?;
                 Val arg1 = fut_arg1.get;
                 Val arg2 = fut_arg2.get;
                 return IntVal( ( intVal(arg1) + intVal(arg2) ) );
         }
         Unit setVal_val_fut(Loc loc, Fut<Val> fut_value){
-                this.ready = True;
-                await this.go & fut_value?;
+                await fut_value?;
                 Val value = fut_value.get;
                 Fut<Unit> se = mem(loc)!setVal(offset(loc), value);
                 se.get;
         }
         Val getVal_val(Loc loc){
-                this.ready = True;
-                await this.go;
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
-                return futureResult.get;
+                Val result = futureResult.get;
+                return result;
         }
         }
 
@@ -549,8 +363,6 @@ interface Function_test_a {
 
 class Function_test_a(List<Loc> globalVars, List<Loc> params) implements Function_test_a {
         List<Loc> localVars = Nil;
-        Bool ready = False;
-        Bool go = False;
         
         Val call(){
                 Mem mem_0 = new Mem(copy(IntVal( 0 ), 1));
@@ -568,23 +380,11 @@ class Function_test_a(List<Loc> globalVars, List<Loc> params) implements Functio
                 Bool returnFlag = False;
                 Val result = IntVal( 0 );
                 {
-                        this.go = False;
                         Fut<Unit> tmp_57 = this!call_init_a_0();
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_57?;
-                        this.go = False;
                         Fut<Val> tmp_60 = this!call_sum_a_0();
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_61 = this!op_mult_val_fut(2, tmp_60);
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_62 = this!cmp_ne_int_fut_val(tmp_61, ( 100 * ( 100 + 1 ) ));
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_62?;
                         Val tmp_66 = tmp_62.get;
                         if ( ( intVal(tmp_66) != 0 ) ){
@@ -592,17 +392,9 @@ class Function_test_a(List<Loc> globalVars, List<Loc> params) implements Functio
                                 returnFlag = True;
                         }
                         if ( ! returnFlag ){
-                                this.go = False;
                                 Fut<Val> tmp_68 = this!call_sum_p_val_0(Ptr( Loc( mem(nth(this.globalVars, 0)), ( offset(nth(this.globalVars, 0)) + ( 1 * 0 ) ) ) ));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_69 = this!op_mult_val_fut(2, tmp_68);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_70 = this!cmp_ne_int_fut_val(tmp_69, ( 100 * ( 100 + 1 ) ));
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_70?;
                                 Val tmp_74 = tmp_70.get;
                                 if ( ( intVal(tmp_74) != 0 ) ){
@@ -618,39 +410,34 @@ class Function_test_a(List<Loc> globalVars, List<Loc> params) implements Functio
                 return result;
         }
         Val op_mult_val_fut(Int arg1, Fut<Val> fut_arg2){
-                this.ready = True;
-                await this.go & fut_arg2?;
+                await fut_arg2?;
                 Val arg2 = fut_arg2.get;
                 return IntVal( ( arg1 * intVal(arg2) ) );
         }
         Unit call_init_a_0(){
-                this.ready = True;
-                await this.go;
-                Function_init_a tmp_58 = new Function_init_a(this.globalVars, this.params);
+                List<Loc> params = Nil;
+                Function_init_a tmp_58 = new Function_init_a(this.globalVars, params);
                 Fut<Unit> tmp_59 = tmp_58!call();
                 tmp_59.get;
         }
         Val call_sum_a_0(){
-                this.ready = True;
-                await this.go;
-                Function_sum_a tmp_63 = new Function_sum_a(this.globalVars, this.params);
+                List<Loc> params = Nil;
+                Function_sum_a tmp_63 = new Function_sum_a(this.globalVars, params);
                 Fut<Val> tmp_64 = tmp_63!call();
                 Val tmp_65 = tmp_64.get;
                 return tmp_65;
         }
         Val call_sum_p_val_0(Ptr arg1){
-                this.ready = True;
-                await this.go;
+                List<Loc> params = Nil;
                 Mem mem_0 = new Mem(copy(PtrVal( arg1 ), 1));
-                this.params = appendright(this.params, Loc( mem_0, 0 ));
-                Function_sum_p tmp_71 = new Function_sum_p(this.globalVars, this.params);
+                params = appendright(params, Loc( mem_0, 0 ));
+                Function_sum_p tmp_71 = new Function_sum_p(this.globalVars, params);
                 Fut<Val> tmp_72 = tmp_71!call();
                 Val tmp_73 = tmp_72.get;
                 return tmp_73;
         }
         Val cmp_ne_int_fut_val(Fut<Val> fut_arg1, Int arg2){
-                this.ready = True;
-                await this.go & fut_arg1?;
+                await fut_arg1?;
                 Val arg1 = fut_arg1.get;
                 return IntVal( if ( arg1 != IntVal( arg2 ) ) then 1 else 0 );
         }
@@ -662,8 +449,6 @@ interface Function_test_p {
 
 class Function_test_p(List<Loc> globalVars, List<Loc> params) implements Function_test_p {
         List<Loc> localVars = Nil;
-        Bool ready = False;
-        Bool go = False;
         
         Val call(){
                 Mem mem_0 = new Mem(copy(IntVal( 0 ), 1));
@@ -681,23 +466,11 @@ class Function_test_p(List<Loc> globalVars, List<Loc> params) implements Functio
                 Bool returnFlag = False;
                 Val result = IntVal( 0 );
                 {
-                        this.go = False;
                         Fut<Unit> tmp_75 = this!call_init_p_val_0(Ptr( nth(this.globalVars, 0) ));
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_75?;
-                        this.go = False;
                         Fut<Val> tmp_78 = this!call_sum_a_0();
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_79 = this!op_mult_val_fut(2, tmp_78);
-                        this.ready = False;
-                        await this.ready;
                         Fut<Val> tmp_80 = this!cmp_ne_int_fut_val(tmp_79, ( 100 * ( 100 + 1 ) ));
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_80?;
                         Val tmp_84 = tmp_80.get;
                         if ( ( intVal(tmp_84) != 0 ) ){
@@ -705,17 +478,9 @@ class Function_test_p(List<Loc> globalVars, List<Loc> params) implements Functio
                                 returnFlag = True;
                         }
                         if ( ! returnFlag ){
-                                this.go = False;
                                 Fut<Val> tmp_86 = this!call_sum_p_val_0(Ptr( Loc( mem(nth(this.globalVars, 0)), ( offset(nth(this.globalVars, 0)) + ( 1 * 0 ) ) ) ));
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_87 = this!op_mult_val_fut(2, tmp_86);
-                                this.ready = False;
-                                await this.ready;
                                 Fut<Val> tmp_88 = this!cmp_ne_int_fut_val(tmp_87, ( 100 * ( 100 + 1 ) ));
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_88?;
                                 Val tmp_92 = tmp_88.get;
                                 if ( ( intVal(tmp_92) != 0 ) ){
@@ -731,41 +496,36 @@ class Function_test_p(List<Loc> globalVars, List<Loc> params) implements Functio
                 return result;
         }
         Val op_mult_val_fut(Int arg1, Fut<Val> fut_arg2){
-                this.ready = True;
-                await this.go & fut_arg2?;
+                await fut_arg2?;
                 Val arg2 = fut_arg2.get;
                 return IntVal( ( arg1 * intVal(arg2) ) );
         }
         Unit call_init_p_val_0(Ptr arg1){
-                this.ready = True;
-                await this.go;
+                List<Loc> params = Nil;
                 Mem mem_0 = new Mem(copy(PtrVal( arg1 ), 1));
-                this.params = appendright(this.params, Loc( mem_0, 0 ));
-                Function_init_p tmp_76 = new Function_init_p(this.globalVars, this.params);
+                params = appendright(params, Loc( mem_0, 0 ));
+                Function_init_p tmp_76 = new Function_init_p(this.globalVars, params);
                 Fut<Unit> tmp_77 = tmp_76!call();
                 tmp_77.get;
         }
         Val call_sum_a_0(){
-                this.ready = True;
-                await this.go;
-                Function_sum_a tmp_81 = new Function_sum_a(this.globalVars, this.params);
+                List<Loc> params = Nil;
+                Function_sum_a tmp_81 = new Function_sum_a(this.globalVars, params);
                 Fut<Val> tmp_82 = tmp_81!call();
                 Val tmp_83 = tmp_82.get;
                 return tmp_83;
         }
         Val call_sum_p_val_0(Ptr arg1){
-                this.ready = True;
-                await this.go;
+                List<Loc> params = Nil;
                 Mem mem_0 = new Mem(copy(PtrVal( arg1 ), 1));
-                this.params = appendright(this.params, Loc( mem_0, 0 ));
-                Function_sum_p tmp_89 = new Function_sum_p(this.globalVars, this.params);
+                params = appendright(params, Loc( mem_0, 0 ));
+                Function_sum_p tmp_89 = new Function_sum_p(this.globalVars, params);
                 Fut<Val> tmp_90 = tmp_89!call();
                 Val tmp_91 = tmp_90.get;
                 return tmp_91;
         }
         Val cmp_ne_int_fut_val(Fut<Val> fut_arg1, Int arg2){
-                this.ready = True;
-                await this.go & fut_arg1?;
+                await fut_arg1?;
                 Val arg1 = fut_arg1.get;
                 return IntVal( if ( arg1 != IntVal( arg2 ) ) then 1 else 0 );
         }
@@ -777,8 +537,6 @@ interface Function_main {
 
 class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_main {
         List<Loc> localVars = Nil;
-        Bool ready = False;
-        Bool go = False;
         
         Val call(){
                 Mem mem_0 = new Mem(copy(IntVal( 0 ), 1));
@@ -798,38 +556,22 @@ class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_
                 Bool returnFlag = False;
                 Val result = IntVal( 0 );
                 {
-                        this.go = False;
                         Fut<Val> tmp_93 = this!call_test_a_0();
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_93?;
                         Val tmp_97 = tmp_93.get;
                         Fut<Unit> tmp_98 = mem(nth(this.localVars, 6))!setVal(0, tmp_97);
                         tmp_98.get;
-                        this.go = False;
                         Fut<Val> tmp_99 = this!getVal_val(nth(this.localVars, 6));
-                        this.ready = False;
-                        await this.ready;
-                        this.go = True;
                         await tmp_99?;
                         Val tmp_101 = tmp_99.get;
                         if ( ( intVal(tmp_101) != 0 ) ){
-                                this.go = False;
                                 Fut<Val> tmp_100 = this!getVal_val(nth(this.localVars, 6));
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_100?;
                                 result = tmp_100.get;
                                 returnFlag = True;
                         }
                         if ( ! returnFlag ){
-                                this.go = False;
                                 Fut<Val> tmp_102 = this!call_test_p_0();
-                                this.ready = False;
-                                await this.ready;
-                                this.go = True;
                                 await tmp_102?;
                                 result = tmp_102.get;
                                 returnFlag = True;
@@ -838,57 +580,46 @@ class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_
                 return result;
         }
         Val call_test_a_0(){
-                this.ready = True;
-                await this.go;
-                Function_test_a tmp_94 = new Function_test_a(this.globalVars, this.params);
+                List<Loc> params = Nil;
+                Function_test_a tmp_94 = new Function_test_a(this.globalVars, params);
                 Fut<Val> tmp_95 = tmp_94!call();
                 Val tmp_96 = tmp_95.get;
                 return tmp_96;
         }
         Val call_test_p_0(){
-                this.ready = True;
-                await this.go;
-                Function_test_p tmp_103 = new Function_test_p(this.globalVars, this.params);
+                List<Loc> params = Nil;
+                Function_test_p tmp_103 = new Function_test_p(this.globalVars, params);
                 Fut<Val> tmp_104 = tmp_103!call();
                 Val tmp_105 = tmp_104.get;
                 return tmp_105;
         }
         Val getVal_val(Loc loc){
-                this.ready = True;
-                await this.go;
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
-                return futureResult.get;
+                Val result = futureResult.get;
+                return result;
         }
         }
 
-interface Result {
-        }
-
-class Result(Int value) implements Result {
-        
-        
-        }
-
-interface Init {
-        Unit init();
+interface InitI {
+        Unit initM();
 }
 
-class Init(List<Loc> globalVars) implements Init {
+class InitC(List<Loc> globalVars) implements InitI {
         
         
-        Unit init(){
+        Unit initM(){
                 Mem mem_0 = new Mem(copy(IntVal( 0 ), ( 100 * 1 )));
                 this.globalVars = appendright(this.globalVars, Loc( mem_0, 0 ));
                 Function_main main = new Function_main(this.globalVars, Nil);
                 Fut<Val> fv = main!call();
                 Val v = fv.get;
-                Result result = new Result(intVal(v));
-                println(toString(v));
+                println(toString(intVal(v)));
         }
         }
 
 
 {
-        Init init = new Init(Nil);
-        init!init();
+        InitI initO = new InitC(Nil);
+        Fut<Unit> futureResult = initO!initM();
+        await futureResult?;
 }
