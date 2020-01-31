@@ -1,0 +1,119 @@
+module TestModule;
+
+
+
+data Val = IntVal(Int intVal)| PtrVal(Ptr ptrVal);
+
+data Ptr = NullPtr| Ptr(Loc loc);
+
+data Loc = Loc(Mem mem, Int offset);
+
+interface Mem {
+        Val getVal(Int offset);
+        Unit setVal(Int offset, Val newVal);
+}
+
+def List<A> replace<A>(List<A> l, Int i, A a) = 
+        if ( i == 0 ) then Cons( a, tail(l) ) else Cons( head(l), replace(tail(l), ( i - 1 ), a) );
+
+class Mem(List<Val> vals) implements Mem {
+        
+        
+        Val getVal(Int offset){
+                return nth(this.vals, offset);
+        }
+        Unit setVal(Int offset, Val newVal){
+                this.vals = replace(this.vals, offset, newVal);
+        }
+        }
+
+interface Function_main {
+        Val call();
+}
+
+class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_main {
+        List<Loc> localVars = Nil;
+        
+        Val call(){
+                Bool returnFlag = False;
+                Val result = IntVal( 0 );
+                {
+                        Fut<Val> tmp_2 = this!getVal_val(nth(this.globalVars, 1));
+                        Fut<Loc> tmp_3 = this!deref_fut(tmp_2);
+                        Fut<Val> tmp_4 = this!getVal_fut(tmp_3);
+                        Fut<Val> tmp_5 = this!getVal_val(nth(this.globalVars, 1));
+                        Fut<Loc> tmp_6 = this!deref_fut(tmp_5);
+                        Fut<Val> tmp_7 = this!getVal_fut(tmp_6);
+                        Fut<Val> tmp_8 = this!op_plus_fut_fut(tmp_4, tmp_7);
+                        Fut<Val> tmp_9 = this!getVal_val(nth(this.globalVars, 1));
+                        Fut<Loc> tmp_10 = this!deref_fut(tmp_9);
+                        Fut<Val> tmp_11 = this!getVal_fut(tmp_10);
+                        Fut<Val> tmp_12 = this!op_plus_fut_fut(tmp_8, tmp_11);
+                        Fut<Val> tmp_13 = this!getVal_val(nth(this.globalVars, 1));
+                        Fut<Loc> tmp_14 = this!deref_fut(tmp_13);
+                        Fut<Val> tmp_15 = this!getVal_fut(tmp_14);
+                        Fut<Val> tmp_16 = this!op_plus_fut_fut(tmp_12, tmp_15);
+                        Fut<Val> tmp_17 = this!getVal_val(nth(this.globalVars, 1));
+                        Fut<Loc> tmp_18 = this!deref_fut(tmp_17);
+                        Fut<Val> tmp_19 = this!getVal_fut(tmp_18);
+                        Fut<Val> tmp_20 = this!op_plus_fut_fut(tmp_16, tmp_19);
+                        Fut<Val> tmp_21 = this!getVal_val(nth(this.globalVars, 1));
+                        Fut<Loc> tmp_22 = this!deref_fut(tmp_21);
+                        Fut<Val> tmp_23 = this!getVal_fut(tmp_22);
+                        Fut<Val> tmp_24 = this!op_plus_fut_fut(tmp_20, tmp_23);
+                        await tmp_24?;
+                        result = tmp_24.get;
+                        returnFlag = True;
+                }
+                return result;
+        }
+        Val getVal_fut(Fut<Loc> fut_loc){
+                await fut_loc?;
+                Loc loc = fut_loc.get;
+                Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
+                Val result = futureResult.get;
+                return result;
+        }
+        Loc deref_fut(Fut<Val> fut_ptr){
+                await fut_ptr?;
+                Val ptr = fut_ptr.get;
+                return loc(ptrVal(ptr));
+        }
+        Val op_plus_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
+                await fut_arg1? & fut_arg2?;
+                Val arg1 = fut_arg1.get;
+                Val arg2 = fut_arg2.get;
+                return IntVal( ( intVal(arg1) + intVal(arg2) ) );
+        }
+        Val getVal_val(Loc loc){
+                Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
+                Val result = futureResult.get;
+                return result;
+        }
+        }
+
+interface InitI {
+        Unit initM();
+}
+
+class InitC(List<Loc> globalVars) implements InitI {
+        
+        
+        Unit initM(){
+                Mem mem_0 = new Mem(copy(IntVal( 10 ), 1));
+                this.globalVars = appendright(this.globalVars, Loc( mem_0, 0 ));
+                Mem mem_1 = new Mem(copy(PtrVal( Ptr( nth(this.globalVars, 0) ) ), 1));
+                this.globalVars = appendright(this.globalVars, Loc( mem_1, 0 ));
+                Function_main main = new Function_main(this.globalVars, Nil);
+                Fut<Val> fv = main!call();
+                Val v = fv.get;
+                println(toString(intVal(v)));
+        }
+        }
+
+
+{
+        InitI initO = new InitC(Nil);
+        Fut<Unit> futureResult = initO!initM();
+        await futureResult?;
+}
