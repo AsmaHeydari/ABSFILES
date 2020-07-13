@@ -27,11 +27,11 @@ class Mem(List<Val> vals) implements Mem {
         }
         }
 
-interface Function_mult {
+interface Function_add {
         Val call();
 }
 
-class Function_mult(List<Loc> globalVars, List<Loc> params) implements Function_mult {
+class Function_add(List<Loc> globalVars, List<Loc> params) implements Function_add {
         List<Loc> localVars = Nil;
         
         Val call(){
@@ -155,7 +155,7 @@ class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_
                         await tmp_30?;
                         Val tmp_35 = tmp_30.get;
                         if ( ( intVal(tmp_35) != 0 ) ){
-                                Fut<Val> tmp_31 = this!call_mult_0();
+                                Fut<Val> tmp_31 = this!call_add_0();
                                 await tmp_31?;
                                 result = tmp_31.get;
                                 returnFlag = True;
@@ -180,17 +180,17 @@ class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_
                 Fut<Unit> se = mem(loc)!setVal(offset(loc), value);
                 se.get;
         }
-        Val call_mult_0(){
-                List<Loc> params = Nil;
-                Function_mult tmp_32 = new Function_mult(this.globalVars, params);
-                Fut<Val> tmp_33 = tmp_32!call();
-                Val tmp_34 = tmp_33.get;
-                return tmp_34;
-        }
         Loc subscript_val_fut(Loc loc, Int size, Fut<Val> fut_index){
                 await fut_index?;
                 Val index = fut_index.get;
                 return Loc( mem(loc), ( offset(loc) + ( size * intVal(index) ) ) );
+        }
+        Val call_add_0(){
+                List<Loc> params = Nil;
+                Function_add tmp_32 = new Function_add(this.globalVars, params);
+                Fut<Val> tmp_33 = tmp_32!call();
+                Val tmp_34 = tmp_33.get;
+                return tmp_34;
         }
         Unit setVal_val_fut(Loc loc, Fut<Val> fut_value){
                 await fut_value?;
