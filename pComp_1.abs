@@ -40,7 +40,7 @@ class Function_pComp(List<Loc> globalVars, List<Loc> params) implements Function
                 {
                         Fut<Val> tmp_4 = this!getVal_val(nth(this.params, 0));
                         Fut<Val> tmp_5 = this!getVal_val(nth(this.params, 1));
-                        Fut<Val> tmp_6 = this!cmp_eq_ptr_fut_fut(tmp_4, tmp_5);
+                        Fut<Val> tmp_6 = this!cmp_lt_ptr_fut_fut(tmp_4, tmp_5);
                         await tmp_6?;
                         Val tmp_17 = tmp_6.get;
                         if ( ( intVal(tmp_17) != 0 ) ){
@@ -77,6 +77,12 @@ class Function_pComp(List<Loc> globalVars, List<Loc> params) implements Function
                 Val ptr = fut_ptr.get;
                 return loc(ptrVal(ptr));
         }
+        Val cmp_lt_ptr_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
+                await fut_arg1? & fut_arg2?;
+                Val arg1 = fut_arg1.get;
+                Val arg2 = fut_arg2.get;
+                return IntVal( if ( arg1 < arg2 ) then 1 else 0 );
+        }
         Val op_plus_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
                 await fut_arg1? & fut_arg2?;
                 Val arg1 = fut_arg1.get;
@@ -87,12 +93,6 @@ class Function_pComp(List<Loc> globalVars, List<Loc> params) implements Function
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
                 Val result = futureResult.get;
                 return result;
-        }
-        Val cmp_eq_ptr_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
-                await fut_arg1? & fut_arg2?;
-                Val arg1 = fut_arg1.get;
-                Val arg2 = fut_arg2.get;
-                return IntVal( if ( arg1 == arg2 ) then 1 else 0 );
         }
         }
 

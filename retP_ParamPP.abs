@@ -39,25 +39,41 @@ class Function_m(List<Loc> globalVars, List<Loc> params) implements Function_m {
                 Val result = PtrVal( NullPtr );
                 {
                         Fut<Val> tmp_1 = this!getVal_val(nth(this.params, 0));
-                        Fut<Val> tmp_2 = this!getVal_val(nth(this.params, 1));
-                        Fut<Val> tmp_3 = this!cmp_ge_ptr_fut_fut(tmp_1, tmp_2);
-                        await tmp_3?;
-                        Val tmp_6 = tmp_3.get;
-                        if ( ( intVal(tmp_6) != 0 ) ){
-                                Fut<Val> tmp_4 = this!getVal_val(nth(this.params, 0));
-                                await tmp_4?;
-                                result = tmp_4.get;
+                        Fut<Loc> tmp_2 = this!deref_fut(tmp_1);
+                        Fut<Val> tmp_3 = this!getVal_fut(tmp_2);
+                        Fut<Val> tmp_4 = this!getVal_val(nth(this.params, 1));
+                        Fut<Loc> tmp_5 = this!deref_fut(tmp_4);
+                        Fut<Val> tmp_6 = this!getVal_fut(tmp_5);
+                        Fut<Val> tmp_7 = this!cmp_ge_int_fut_fut(tmp_3, tmp_6);
+                        await tmp_7?;
+                        Val tmp_10 = tmp_7.get;
+                        if ( ( intVal(tmp_10) != 0 ) ){
+                                Fut<Val> tmp_8 = this!getVal_val(nth(this.params, 0));
+                                await tmp_8?;
+                                result = tmp_8.get;
                                 returnFlag = True;
                         } else {
-                                Fut<Val> tmp_5 = this!getVal_val(nth(this.params, 1));
-                                await tmp_5?;
-                                result = tmp_5.get;
+                                Fut<Val> tmp_9 = this!getVal_val(nth(this.params, 1));
+                                await tmp_9?;
+                                result = tmp_9.get;
                                 returnFlag = True;
                         }
                 }
                 return result;
         }
-        Val cmp_ge_ptr_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
+        Val getVal_fut(Fut<Loc> fut_loc){
+                await fut_loc?;
+                Loc loc = fut_loc.get;
+                Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
+                Val result = futureResult.get;
+                return result;
+        }
+        Loc deref_fut(Fut<Val> fut_ptr){
+                await fut_ptr?;
+                Val ptr = fut_ptr.get;
+                return loc(ptrVal(ptr));
+        }
+        Val cmp_ge_int_fut_fut(Fut<Val> fut_arg1, Fut<Val> fut_arg2){
                 await fut_arg1? & fut_arg2?;
                 Val arg1 = fut_arg1.get;
                 Val arg2 = fut_arg2.get;
@@ -85,13 +101,13 @@ class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_
                 Bool returnFlag = False;
                 Val result = IntVal( 0 );
                 {
-                        Fut<Val> tmp_9 = this!getVal_val(nth(this.localVars, 0));
-                        Fut<Val> tmp_10 = this!getVal_val(nth(this.localVars, 1));
-                        Fut<Val> tmp_11 = this!call_m_fut_fut_0(tmp_9, tmp_10);
-                        Fut<Loc> tmp_12 = this!deref_fut(tmp_11);
-                        Fut<Val> tmp_13 = this!getVal_fut(tmp_12);
-                        await tmp_13?;
-                        result = tmp_13.get;
+                        Fut<Val> tmp_13 = this!getVal_val(nth(this.localVars, 0));
+                        Fut<Val> tmp_14 = this!getVal_val(nth(this.localVars, 1));
+                        Fut<Val> tmp_15 = this!call_m_fut_fut_0(tmp_13, tmp_14);
+                        Fut<Loc> tmp_16 = this!deref_fut(tmp_15);
+                        Fut<Val> tmp_17 = this!getVal_fut(tmp_16);
+                        await tmp_17?;
+                        result = tmp_17.get;
                         returnFlag = True;
                 }
                 return result;
@@ -117,10 +133,10 @@ class Function_main(List<Loc> globalVars, List<Loc> params) implements Function_
                 params = appendright(params, Loc( mem_0, 0 ));
                 Mem mem_1 = new Mem(copy(arg2, 1));
                 params = appendright(params, Loc( mem_1, 0 ));
-                Function_m tmp_14 = new Function_m(this.globalVars, params);
-                Fut<Val> tmp_15 = tmp_14!call();
-                Val tmp_16 = tmp_15.get;
-                return tmp_16;
+                Function_m tmp_18 = new Function_m(this.globalVars, params);
+                Fut<Val> tmp_19 = tmp_18!call();
+                Val tmp_20 = tmp_19.get;
+                return tmp_20;
         }
         Val getVal_val(Loc loc){
                 Fut<Val> futureResult = mem(loc)!getVal(offset(loc));
